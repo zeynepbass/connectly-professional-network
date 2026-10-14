@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { ProfileMenu } from "@/components/layout/profile-menu";
+import { DemoBadge } from "@/components/shared/demo-badge";
 import { isActivePath, navItems } from "@/components/layout/nav-items";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +17,7 @@ export function SiteHeader() {
       <div className="container-app flex h-(--header-height) items-center gap-3">
         <Logo showWordmark={false} className="sm:hidden" />
         <Logo className="hidden sm:flex" />
+        <DemoBadge className="hidden lg:inline-flex" />
 
         <form action="/search" role="search" className="relative flex-1 md:max-w-xs">
           <label htmlFor="global-search" className="sr-only">

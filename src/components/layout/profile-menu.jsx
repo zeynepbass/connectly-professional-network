@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { LogOut, Pencil, UserRound } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { LogOut, Pencil, RotateCcw, UserRound } from "lucide-react";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import {
   DropdownMenu,
@@ -11,11 +12,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-const placeholderUser = { name: "Demo User", headline: "Connectly member", username: "me" };
+import { useCurrentUser } from "@/lib/store/hooks";
+import { dispatch } from "@/lib/store/store";
 
 export function ProfileMenu() {
-  const user = placeholderUser;
+  const user = useCurrentUser();
+  const router = useRouter();
+
+  if (!user) return null;
+
+  function signOut() {
+    dispatch({ type: "auth/signOut" });
+    router.replace("/sign-in");
+  }
 
   return (
     <DropdownMenu>
@@ -25,13 +34,13 @@ export function ProfileMenu() {
       >
         <UserAvatar name={user.name} size="sm" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-60">
+      <DropdownMenuContent align="end" className="w-64">
         <DropdownMenuLabel className="flex items-center gap-3 py-2">
           <UserAvatar name={user.name} size="md" />
           <span className="min-w-0">
             <span className="block truncate font-semibold text-foreground">{user.name}</span>
             <span className="block truncate text-xs font-normal text-muted-foreground">
-              {user.headline}
+              {user.title} at {user.company}
             </span>
           </span>
         </DropdownMenuLabel>
@@ -46,8 +55,11 @@ export function ProfileMenu() {
             <Pencil aria-hidden="true" /> Edit profile
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => dispatch({ type: "demo/reset" })}>
+          <RotateCcw aria-hidden="true" /> Reset demo data
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem disabled>
+        <DropdownMenuItem onSelect={signOut}>
           <LogOut aria-hidden="true" /> Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>
