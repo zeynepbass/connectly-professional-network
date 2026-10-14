@@ -74,6 +74,7 @@ export function SearchView({ initialFilters, facets }) {
         <CardContent>
           <form
             role="search"
+            aria-label="Filter people"
             onSubmit={(event) => event.preventDefault()}
             className="grid gap-3 sm:grid-cols-[1fr_180px_180px]"
           >

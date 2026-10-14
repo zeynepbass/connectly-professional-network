@@ -16,8 +16,10 @@ function Section({ id, title, count, children }) {
     <section aria-labelledby={id}>
       <Card>
         <CardHeader>
-          <CardTitle id={id} className="text-base">
-            {title} {typeof count === "number" && <span className="text-muted-foreground">({count})</span>}
+          <CardTitle>
+            <h2 id={id} className="text-base">
+              {title} {typeof count === "number" && <span className="text-muted-foreground">({count})</span>}
+            </h2>
           </CardTitle>
         </CardHeader>
         <CardContent>{children}</CardContent>
@@ -81,9 +83,9 @@ export function NetworkView() {
         {suggestions.length === 0 ? (
           <EmptyState icon={UserCheck} title="All caught up" description="No new suggestions right now." />
         ) : (
-          <ul className="grid gap-3 sm:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {suggestions.map((user) => (
-              <li key={user.id} className="rounded-lg border p-3">
+              <li key={user.id} className="min-w-0 rounded-lg border p-3">
                 <PersonRow user={user} />
                 <ConnectButton userId={user.id} name={user.name} className="mt-3 w-full" />
               </li>

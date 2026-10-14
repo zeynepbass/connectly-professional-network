@@ -22,7 +22,7 @@ export function SiteHeader() {
         <Logo className="hidden sm:flex" />
         <DemoBadge className="hidden lg:inline-flex" />
 
-        <form action="/search" role="search" className="relative flex-1 md:max-w-xs">
+        <form action="/search" role="search" aria-label="Site" className="relative flex-1 md:max-w-xs">
           <label htmlFor="global-search" className="sr-only">
             Search people
           </label>
