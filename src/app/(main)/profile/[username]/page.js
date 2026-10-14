@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { MessageButton } from "@/features/messages/message-button";
 import { ConnectButton } from "@/features/network/connect-button";
 import { ProfileView } from "@/features/profile/profile-view";
 import { findUserByUsername, getAllUsers } from "@/lib/users";
@@ -18,5 +19,15 @@ export default async function ProfilePage({ params }) {
   const user = findUserByUsername(username);
   if (!user) notFound();
 
-  return <ProfileView userId={user.id} actions={<ConnectButton userId={user.id} name={user.name} />} />;
+  return (
+    <ProfileView
+      userId={user.id}
+      actions={
+        <div className="flex flex-wrap justify-end gap-2">
+          <MessageButton username={user.username} name={user.name} />
+          <ConnectButton userId={user.id} name={user.name} />
+        </div>
+      }
+    />
+  );
 }

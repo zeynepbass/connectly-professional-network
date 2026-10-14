@@ -68,7 +68,7 @@ export function startConversation(participantId) {
   dispatch({ type: "messages/startConversation", conversationId, participantId });
 }
 
-export function sendMessage(conversationId, senderId, content, { markUnread } = {}) {
+export function sendMessage(conversationId, senderId, content, { markUnread, automated } = {}) {
   dispatch({
     type: "messages/send",
     conversationId,
@@ -78,6 +78,7 @@ export function sendMessage(conversationId, senderId, content, { markUnread } = 
       senderId,
       content: content.trim(),
       createdAt: new Date().toISOString(),
+      ...(automated && { automated: true }),
     },
   });
 }
