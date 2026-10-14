@@ -1,3 +1,4 @@
+import { initialConnections } from "@/data/connections";
 import { posts } from "@/data/posts";
 import { minutesAgoToIso } from "@/lib/format";
 
@@ -8,6 +9,7 @@ export function createInitialState(now = Date.now()) {
     version: STORE_VERSION,
     session: null,
     profiles: {},
+    connections: { ...initialConnections },
     posts: posts.map(({ minutesAgo, comments, ...post }) => ({
       ...post,
       createdAt: minutesAgoToIso(minutesAgo, now),

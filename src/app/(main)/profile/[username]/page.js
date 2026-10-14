@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ConnectButton } from "@/features/network/connect-button";
 import { ProfileView } from "@/features/profile/profile-view";
 import { findUserByUsername, getAllUsers } from "@/lib/users";
 
@@ -17,5 +18,5 @@ export default async function ProfilePage({ params }) {
   const user = findUserByUsername(username);
   if (!user) notFound();
 
-  return <ProfileView userId={user.id} />;
+  return <ProfileView userId={user.id} actions={<ConnectButton userId={user.id} name={user.name} />} />;
 }
