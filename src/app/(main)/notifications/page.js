@@ -1,8 +1,7 @@
-import { Bell } from "lucide-react";
-import { EmptyState } from "@/components/shared/empty-state";
+import { NotificationsView } from "@/features/notifications/notifications-view";
 
 export const metadata = { title: "Notifications · Connectly" };
 
 export default function NotificationsPage() {
-  return <EmptyState icon={Bell} title="Notifications" description="Stay up to date with your network." />;
+  return <NotificationsView />;
 }

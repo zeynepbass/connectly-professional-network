@@ -62,3 +62,35 @@ export function applyToJob(jobId, details) {
     application: { ...details, appliedAt: new Date().toISOString() },
   });
 }
+
+export function startConversation(participantId) {
+  const conversationId = createId("conversation");
+  dispatch({ type: "messages/startConversation", conversationId, participantId });
+}
+
+export function sendMessage(conversationId, senderId, content, { markUnread, automated } = {}) {
+  dispatch({
+    type: "messages/send",
+    conversationId,
+    markUnread,
+    message: {
+      id: createId("message"),
+      senderId,
+      content: content.trim(),
+      createdAt: new Date().toISOString(),
+      ...(automated && { automated: true }),
+    },
+  });
+}
+
+export function markConversationRead(conversationId) {
+  dispatch({ type: "messages/markRead", conversationId });
+}
+
+export function markNotificationRead(notificationId) {
+  dispatch({ type: "notifications/markRead", notificationId });
+}
+
+export function markAllNotificationsRead() {
+  dispatch({ type: "notifications/markAllRead" });
+}

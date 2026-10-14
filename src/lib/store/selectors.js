@@ -28,3 +28,19 @@ export function selectUsersByConnection(state, status) {
     (user) => user.id !== state.session?.userId && selectConnectionStatus(state, user.id) === status
   );
 }
+
+function lastActivity(conversation) {
+  return conversation.messages.at(-1)?.createdAt ?? "";
+}
+
+export function selectConversations(state) {
+  return [...state.conversations].sort((a, b) => lastActivity(b).localeCompare(lastActivity(a)));
+}
+
+export function selectUnreadConversationCount(state) {
+  return state.conversations.filter((conversation) => conversation.unread).length;
+}
+
+export function selectUnreadNotificationCount(state) {
+  return state.notifications.filter((notification) => !notification.read).length;
+}
