@@ -62,34 +62,41 @@ export function MessageThread({ conversation, participant, currentUserId, onBack
         </div>
       </header>
 
-      <ol role="log" aria-live="polite" aria-label={`Messages with ${participant.name}`} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
-        {conversation.messages.length === 0 && (
-          <li className="py-8 text-center text-sm text-muted-foreground">
-            Start the conversation with {participant.name.split(" ")[0]}.
-          </li>
-        )}
-        {conversation.messages.map((message) => {
-          const mine = message.senderId === currentUserId;
-          return (
-            <li key={message.id} className={cn("flex flex-col gap-1", mine ? "items-end" : "items-start")}>
-              <p
-                className={cn(
-                  "max-w-[85%] rounded-2xl px-3.5 py-2 text-sm break-words whitespace-pre-line",
-                  mine ? "rounded-br-md bg-primary text-primary-foreground" : "rounded-bl-md bg-muted"
-                )}
-              >
-                <span className="sr-only">{mine ? "You" : participant.name}: </span>
-                {message.content}
-              </p>
-              <span className="text-[11px] text-muted-foreground">
-                {message.automated && "Automated demo reply · "}
-                <RelativeTime iso={message.createdAt} />
-              </span>
+      <div
+        role="log"
+        aria-live="polite"
+        aria-label={`Messages with ${participant.name}`}
+        className="flex-1 overflow-y-auto px-4 py-4"
+      >
+        <ol className="space-y-3">
+          {conversation.messages.length === 0 && (
+            <li className="py-8 text-center text-sm text-muted-foreground">
+              Start the conversation with {participant.name.split(" ")[0]}.
             </li>
-          );
-        })}
-        <li ref={endRef} aria-hidden="true" />
-      </ol>
+          )}
+          {conversation.messages.map((message) => {
+            const mine = message.senderId === currentUserId;
+            return (
+              <li key={message.id} className={cn("flex flex-col gap-1", mine ? "items-end" : "items-start")}>
+                <p
+                  className={cn(
+                    "max-w-[85%] rounded-2xl px-3.5 py-2 text-sm break-words whitespace-pre-line",
+                    mine ? "rounded-br-md bg-primary text-primary-foreground" : "rounded-bl-md bg-muted"
+                  )}
+                >
+                  <span className="sr-only">{mine ? "You" : participant.name}: </span>
+                  {message.content}
+                </p>
+                <span className="text-[11px] text-muted-foreground">
+                  {message.automated && "Automated demo reply · "}
+                  <RelativeTime iso={message.createdAt} />
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+        <div ref={endRef} />
+      </div>
 
       <form
         onSubmit={(event) => {

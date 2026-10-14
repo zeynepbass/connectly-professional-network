@@ -99,6 +99,7 @@ export function JobsView({ initialFilters, initialView }) {
         <CardContent>
           <form
             role="search"
+            aria-label="Filter jobs"
             onSubmit={(event) => event.preventDefault()}
             className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
           >

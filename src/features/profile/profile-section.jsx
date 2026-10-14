@@ -6,8 +6,10 @@ export function ProfileSection({ title, action, children }) {
     <section aria-labelledby={id}>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle id={id} className="text-lg">
-            {title}
+          <CardTitle>
+            <h2 id={id} className="text-lg">
+              {title}
+            </h2>
           </CardTitle>
           {action}
         </CardHeader>
