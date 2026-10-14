@@ -18,3 +18,13 @@ export function selectUsers(state) {
 export function selectFeedPosts(state) {
   return [...state.posts].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
+
+export function selectConnectionStatus(state, userId) {
+  return state.connections[userId] ?? "none";
+}
+
+export function selectUsersByConnection(state, status) {
+  return selectUsers(state).filter(
+    (user) => user.id !== state.session?.userId && selectConnectionStatus(state, user.id) === status
+  );
+}

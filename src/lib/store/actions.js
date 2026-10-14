@@ -46,3 +46,7 @@ export function addComment(postId, authorId, content) {
 export function updateProfile(userId, changes) {
   dispatch({ type: "profile/update", userId, changes });
 }
+
+export function setConnectionStatus(userId, status) {
+  dispatch({ type: "connections/set", userId, status });
+}

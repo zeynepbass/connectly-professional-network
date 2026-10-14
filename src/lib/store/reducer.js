@@ -42,6 +42,13 @@ export function reducer(state, action) {
         },
       };
 
+    case "connections/set": {
+      const connections = { ...state.connections };
+      if (action.status) connections[action.userId] = action.status;
+      else delete connections[action.userId];
+      return { ...state, connections };
+    }
+
     default:
       return state;
   }
