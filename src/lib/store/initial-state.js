@@ -1,4 +1,6 @@
 import { initialConnections } from "@/data/connections";
+import { conversations } from "@/data/conversations";
+import { notifications } from "@/data/notifications";
 import { posts } from "@/data/posts";
 import { minutesAgoToIso } from "@/lib/format";
 
@@ -12,6 +14,17 @@ export function createInitialState(now = Date.now()) {
     connections: { ...initialConnections },
     savedJobIds: [],
     applications: {},
+    conversations: conversations.map(({ messages, ...conversation }) => ({
+      ...conversation,
+      messages: messages.map(({ minutesAgo, ...message }) => ({
+        ...message,
+        createdAt: minutesAgoToIso(minutesAgo, now),
+      })),
+    })),
+    notifications: notifications.map(({ minutesAgo, ...notification }) => ({
+      ...notification,
+      createdAt: minutesAgoToIso(minutesAgo, now),
+    })),
     posts: posts.map(({ minutesAgo, comments, ...post }) => ({
       ...post,
       createdAt: minutesAgoToIso(minutesAgo, now),

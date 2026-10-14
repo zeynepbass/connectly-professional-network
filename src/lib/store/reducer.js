@@ -1,5 +1,14 @@
 import { createInitialState } from "@/lib/store/initial-state";
 
+function updateConversation(state, conversationId, update) {
+  return {
+    ...state,
+    conversations: state.conversations.map((conversation) =>
+      conversation.id === conversationId ? update(conversation) : conversation
+    ),
+  };
+}
+
 function updatePost(state, postId, update) {
   return {
     ...state,
@@ -60,6 +69,42 @@ export function reducer(state, action) {
       return {
         ...state,
         applications: { ...state.applications, [action.jobId]: action.application },
+      };
+
+    case "messages/startConversation":
+      if (state.conversations.some((conversation) => conversation.participantId === action.participantId)) {
+        return state;
+      }
+      return {
+        ...state,
+        conversations: [
+          { id: action.conversationId, participantId: action.participantId, unread: false, messages: [] },
+          ...state.conversations,
+        ],
+      };
+    case "messages/send":
+      return updateConversation(state, action.conversationId, (conversation) => ({
+        ...conversation,
+        unread: action.markUnread ?? conversation.unread,
+        messages: [...conversation.messages, action.message],
+      }));
+    case "messages/markRead":
+      return updateConversation(state, action.conversationId, (conversation) => ({
+        ...conversation,
+        unread: false,
+      }));
+
+    case "notifications/markRead":
+      return {
+        ...state,
+        notifications: state.notifications.map((notification) =>
+          notification.id === action.notificationId ? { ...notification, read: true } : notification
+        ),
+      };
+    case "notifications/markAllRead":
+      return {
+        ...state,
+        notifications: state.notifications.map((notification) => ({ ...notification, read: true })),
       };
 
     default:

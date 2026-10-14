@@ -96,3 +96,5 @@ export function validateApplication({ name, email, phone, note }) {
   if (noteError) errors.note = noteError;
   return errors;
 }
+
+export const MESSAGE_MAX_LENGTH = 2000;
