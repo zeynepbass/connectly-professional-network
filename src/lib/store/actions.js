@@ -50,3 +50,15 @@ export function updateProfile(userId, changes) {
 export function setConnectionStatus(userId, status) {
   dispatch({ type: "connections/set", userId, status });
 }
+
+export function toggleSavedJob(jobId) {
+  dispatch({ type: "jobs/toggleSaved", jobId });
+}
+
+export function applyToJob(jobId, details) {
+  dispatch({
+    type: "jobs/apply",
+    jobId,
+    application: { ...details, appliedAt: new Date().toISOString() },
+  });
+}

@@ -78,3 +78,21 @@ export function validateProfile(values) {
 
   return errors;
 }
+
+export const APPLICATION_NOTE_MAX_LENGTH = 1000;
+const PHONE_PATTERN = /^\+?[0-9\s()-]{7,20}$/;
+
+export function validateApplication({ name, email, phone, note }) {
+  const errors = {};
+  if (!name.trim()) errors.name = "Enter your full name.";
+  if (!email.trim()) errors.email = "Enter your email address.";
+  else if (!EMAIL_PATTERN.test(email.trim())) errors.email = "Enter a valid email address.";
+  if (phone.trim() && !PHONE_PATTERN.test(phone.trim())) errors.phone = "Enter a valid phone number.";
+  const noteError = validateText(note, {
+    label: "Cover note",
+    max: APPLICATION_NOTE_MAX_LENGTH,
+    required: false,
+  });
+  if (noteError) errors.note = noteError;
+  return errors;
+}

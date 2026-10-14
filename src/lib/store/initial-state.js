@@ -10,6 +10,8 @@ export function createInitialState(now = Date.now()) {
     session: null,
     profiles: {},
     connections: { ...initialConnections },
+    savedJobIds: [],
+    applications: {},
     posts: posts.map(({ minutesAgo, comments, ...post }) => ({
       ...post,
       createdAt: minutesAgoToIso(minutesAgo, now),

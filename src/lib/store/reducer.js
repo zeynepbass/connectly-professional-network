@@ -49,6 +49,19 @@ export function reducer(state, action) {
       return { ...state, connections };
     }
 
+    case "jobs/toggleSaved":
+      return {
+        ...state,
+        savedJobIds: state.savedJobIds.includes(action.jobId)
+          ? state.savedJobIds.filter((id) => id !== action.jobId)
+          : [...state.savedJobIds, action.jobId],
+      };
+    case "jobs/apply":
+      return {
+        ...state,
+        applications: { ...state.applications, [action.jobId]: action.application },
+      };
+
     default:
       return state;
   }
