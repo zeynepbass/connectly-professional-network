@@ -18,9 +18,11 @@ vi.mock("next/navigation", () => ({
   notFound: vi.fn(),
 }));
 
-Element.prototype.scrollIntoView = vi.fn();
+if (typeof window !== "undefined") {
+  Element.prototype.scrollIntoView = vi.fn();
 
-afterEach(() => {
-  cleanup();
-  window.localStorage.clear();
-});
+  afterEach(() => {
+    cleanup();
+    window.localStorage.clear();
+  });
+}
