@@ -1,9 +1,10 @@
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SiteHeader } from "@/components/layout/site-header";
+import { AuthGate } from "@/features/auth/auth-gate";
 
 export default function MainLayout({ children }) {
   return (
-    <>
+    <AuthGate>
       <a
         href="#main-content"
         className="sr-only z-50 rounded-md bg-primary px-3 py-2 text-primary-foreground focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
@@ -15,6 +16,6 @@ export default function MainLayout({ children }) {
         {children}
       </main>
       <MobileNav />
-    </>
+    </AuthGate>
   );
 }
