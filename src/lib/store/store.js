@@ -22,7 +22,7 @@ function writeStorage(value) {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
   } catch {
-    // Storage can be unavailable (private mode, quota); the demo keeps working in memory.
+    return;
   }
 }
 
