@@ -18,3 +18,63 @@ export function getSafeRedirect(target, fallback = "/feed") {
   if (!target.startsWith("/") || target.startsWith("//")) return fallback;
   return target;
 }
+
+export const POST_MAX_LENGTH = 1000;
+export const COMMENT_MAX_LENGTH = 500;
+
+export function validateText(value, { label, max, required = true }) {
+  const trimmed = value.trim();
+  if (required && !trimmed) return `${label} can't be empty.`;
+  if (trimmed.length > max) return `${label} must be ${max} characters or fewer.`;
+  return null;
+}
+
+export const PROFILE_LIMITS = {
+  name: 60,
+  headline: 120,
+  title: 60,
+  company: 60,
+  location: 60,
+  about: 600,
+  skill: 30,
+  skills: 15,
+};
+
+export function parseSkills(input) {
+  const seen = new Set();
+  return input
+    .split(",")
+    .map((skill) => skill.trim())
+    .filter((skill) => {
+      const key = skill.toLowerCase();
+      if (!skill || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+}
+
+export function validateProfile(values) {
+  const errors = {};
+  const fields = [
+    ["name", "Name", true],
+    ["headline", "Headline", true],
+    ["title", "Job title", true],
+    ["company", "Company", false],
+    ["location", "Location", false],
+    ["about", "About", false],
+  ];
+
+  for (const [key, label, required] of fields) {
+    const error = validateText(values[key] ?? "", { label, max: PROFILE_LIMITS[key], required });
+    if (error) errors[key] = error;
+  }
+
+  const skills = parseSkills(values.skills ?? "");
+  if (skills.length > PROFILE_LIMITS.skills) {
+    errors.skills = `Add up to ${PROFILE_LIMITS.skills} skills.`;
+  } else if (skills.some((skill) => skill.length > PROFILE_LIMITS.skill)) {
+    errors.skills = `Each skill must be ${PROFILE_LIMITS.skill} characters or fewer.`;
+  }
+
+  return errors;
+}
