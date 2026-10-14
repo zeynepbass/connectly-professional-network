@@ -6,11 +6,14 @@ import { Search } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { ProfileMenu } from "@/components/layout/profile-menu";
 import { DemoBadge } from "@/components/shared/demo-badge";
+import { NavCount } from "@/components/layout/nav-count";
 import { isActivePath, navItems } from "@/components/layout/nav-items";
+import { useDemoState } from "@/lib/store/hooks";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const state = useDemoState();
 
   return (
     <header className="sticky top-0 z-40 border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
@@ -38,7 +41,7 @@ export function SiteHeader() {
 
         <nav aria-label="Primary" className="ml-auto hidden md:block">
           <ul className="flex items-center gap-1">
-            {navItems.map(({ href, label, icon: Icon }) => {
+            {navItems.map(({ href, label, icon: Icon, count, countLabel }) => {
               const active = isActivePath(pathname, href);
               return (
                 <li key={href}>
@@ -50,7 +53,10 @@ export function SiteHeader() {
                       active && "text-foreground"
                     )}
                   >
-                    <Icon className={cn("size-5", active && "text-primary")} aria-hidden="true" />
+                    <span className="relative">
+                      <Icon className={cn("size-5", active && "text-primary")} aria-hidden="true" />
+                      <NavCount count={count?.(state)} label={countLabel} />
+                    </span>
                     <span className={cn(active && "font-medium")}>{label}</span>
                   </Link>
                 </li>
